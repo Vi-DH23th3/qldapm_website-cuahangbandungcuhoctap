@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 14, 2025 lúc 10:07 AM
+-- Thời gian đã tạo: Th10 16, 2025 lúc 03:07 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -45,30 +45,30 @@ INSERT INTO `danhmuc` (`id`, `tendanhmuc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `diachi`
---
-
-CREATE TABLE `diachi` (
-  `id` int(11) NOT NULL,
-  `nguoidung_id` int(11) NOT NULL,
-  `diachi` varchar(255) NOT NULL,
-  `macdinh` tinyint(4) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Cấu trúc bảng cho bảng `donhang`
 --
 
 CREATE TABLE `donhang` (
   `id` int(11) NOT NULL,
   `nguoidung_id` int(11) NOT NULL,
-  `diachi_id` int(11) DEFAULT NULL,
+  `diachi` varchar(50) DEFAULT NULL,
   `ngay` datetime NOT NULL DEFAULT current_timestamp(),
   `tongtien` float NOT NULL DEFAULT 0,
   `ghichu` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `donhang`
+--
+
+INSERT INTO `donhang` (`id`, `nguoidung_id`, `diachi`, `ngay`, `tongtien`, `ghichu`) VALUES
+(1, 4, 'Cần Thơ', '2025-11-10 10:15:00', 1380000, 'Giao giờ hành chính'),
+(2, 5, 'Cần Thơ', '2025-11-11 14:20:00', 225000, 'Gửi kèm hóa đơn'),
+(3, 4, 'Chợ Mới, An Giang', '2025-11-12 09:45:00', 486000, 'Giao gấp trong ngày'),
+(4, 1, 'Long Xuyên, An Giang', '2025-11-13 08:10:00', 180000, NULL),
+(5, 5, 'Đồng Tháp', '2025-11-14 16:30:00', 140700, 'Để trước cửa nếu không có nhà'),
+(6, 4, 'Hội An, Chợ Mới, An Giang', '2025-11-16 08:43:43', 738000, NULL),
+(7, 4, 'Trường Đại học An Giang', '2025-11-16 08:55:47', 124200, NULL);
 
 -- --------------------------------------------------------
 
@@ -84,6 +84,27 @@ CREATE TABLE `donhangct` (
   `soluong` int(11) NOT NULL DEFAULT 1,
   `thanhtien` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `donhangct`
+--
+
+INSERT INTO `donhangct` (`id`, `donhang_id`, `mathang_id`, `dongia`, `soluong`, `thanhtien`) VALUES
+(1, 1, 1, 680000, 1, 680000),
+(2, 1, 2, 738000, 1, 738000),
+(3, 2, 4, 4500, 10, 45000),
+(4, 2, 5, 2700, 50, 135000),
+(5, 2, 7, 36000, 1, 36000),
+(6, 3, 12, 76500, 2, 153000),
+(7, 3, 14, 36000, 3, 108000),
+(8, 3, 15, 48600, 5, 243000),
+(9, 4, 3, 180000, 1, 180000),
+(10, 5, 4, 4500, 3, 13500),
+(11, 5, 9, 13500, 2, 27000),
+(12, 5, 13, 97200, 1, 97200),
+(13, 6, 2, 738000, 1, 738000),
+(14, 7, 18, 27000, 1, 27000),
+(15, 7, 13, 97200, 1, 97200);
 
 -- --------------------------------------------------------
 
@@ -110,8 +131,8 @@ CREATE TABLE `mathang` (
 
 INSERT INTO `mathang` (`id`, `tenmathang`, `mota`, `giagoc`, `giaban`, `soluongton`, `hinhanh`, `danhmuc_id`, `luotxem`, `luotmua`) VALUES
 (1, 'Máy Tính Casio FX-580VN X', 'Máy tính khoa học Casio FX-580VN X, tích hợp 521 tính năng, hỗ trợ học tập và làm bài kiểm tra. Màn hình hiển thị rõ ràng, pin bền, dễ mang đi học.', 750000, 680000, 15, 'images/products/mt1.jpg', 1, 0, 0),
-(2, 'Máy Tính Casio FX-880BTG', 'Máy tính Casio fx-880BTG, dòng ClassWiz, kết nối Bluetooth, hỗ trợ QR Code và các chức năng nâng cao, phù hợp học sinh và sinh viên.', 820000, 738000, 10, 'images/products/mt2.jpg', 1, 0, 0),
-(3, 'Máy Tính Casio SX-100', 'Máy tính văn phòng Casio SX-100, thiết kế nhỏ gọn, dễ sử dụng, màn hình lớn đọc dữ liệu nhanh.', 200000, 180000, 20, 'images/products/mt3.jpg', 1, 0, 0),
+(2, 'Máy Tính Casio FX-880BTG', 'Máy tính Casio fx-880BTG, dòng ClassWiz, kết nối Bluetooth, hỗ trợ QR Code và các chức năng nâng cao, phù hợp học sinh và sinh viên.', 820000, 738000, 9, 'images/products/mt2.jpg', 1, 3, 0),
+(3, 'Máy Tính Casio SX-100', 'Máy tính văn phòng Casio SX-100, thiết kế nhỏ gọn, dễ sử dụng, màn hình lớn đọc dữ liệu nhanh.', 200000, 180000, 20, 'images/products/mt3.jpg', 1, 3, 0),
 (4, 'Bút Bi Thiên Long TL-123', 'Bút bi Thiên Long TL-123, mực trơn, màu xanh, viết êm, tiện dụng cho học sinh, thiết kế vừa tay cầm.', 5000, 4500, 100, 'images/products/b1.jpg', 2, 0, 0),
 (5, 'Bút Chì 2B Staedtler', 'Bút chì 2B Staedtler, chất lượng cao, dễ gọt, đảm bảo nét vẽ đẹp và chuẩn xác.', 3000, 2700, 100, 'images/products/b2.jpg', 2, 0, 0),
 (6, 'Hộp Compa 8 Món', 'Bộ compa 8 món, đầy đủ thước, êke, compa, dễ sử dụng cho học sinh, giúp vẽ hình chính xác.', 55000, 50000, 30, 'images/products/b3.jpg', 2, 0, 0),
@@ -121,14 +142,14 @@ INSERT INTO `mathang` (`id`, `tenmathang`, `mota`, `giagoc`, `giaban`, `soluongt
 (10, 'Bìa Trình Ký A4', 'Bìa trình ký đôi A4, chất liệu nhựa PP cao cấp, bảo vệ giấy tờ, bền và đẹp.', 52000, 46800, 50, 'images/products/vp3.jpg', 3, 0, 0),
 (11, 'Khay Cắm Bút Flexoffice', 'Khay cắm bút Flexoffice, nhựa cao cấp, nhiều ngăn, giúp bàn làm việc gọn gàng, tiện dụng.', 60000, 54000, 30, 'images/products/vp4.jpg', 3, 0, 0),
 (12, 'Giấy Photo A4 70gsm', 'Giấy photo A4 70gsm, 500 tờ, độ trắng cao, phù hợp cho in ấn và photocopy.', 85000, 76500, 20, 'images/products/g1.jpg', 4, 0, 0),
-(13, 'Giấy Photo Double A A4', 'Giấy photo Double A A4, chất lượng cao, bề mặt láng mịn, thân thiện với môi trường.', 108000, 97200, 20, 'images/products/g2.jpg', 4, 0, 0),
-(14, 'Sổ Tay Icon 100 Trang', 'Sổ tay Icon 100 trang, giấy chất lượng, bìa cứng bảo vệ, thuận tiện ghi chép học tập và văn phòng.', 40000, 36000, 30, 'images/products/g3.jpg', 4, 0, 0),
+(13, 'Giấy Photo Double A A4', 'Giấy photo Double A A4, chất lượng cao, bề mặt láng mịn, thân thiện với môi trường.', 108000, 97200, 19, 'images/products/g2.jpg', 4, 0, 0),
+(14, 'Sổ Tay Icon 100 Trang', 'Sổ tay Icon 100 trang, giấy chất lượng, bìa cứng bảo vệ, thuận tiện ghi chép học tập và văn phòng.', 40000, 36000, 30, 'images/products/g3.jpg', 4, 1, 0),
 (15, 'Bảng Bộ 2 Mặt A4 - Queen BS-02', 'Bảng học 2 mặt A4, 1 mặt viết phấn, 1 mặt viết lông bảng, kèm bút lông bảng, tiện học tập và giảng dạy.', 54000, 48600, 20, 'images/products/bang.jpg', 2, 0, 0),
 (16, 'Bộ Lắp Ghép Mô Hình Kỹ Thuật', 'Bộ lắp ghép mô hình kỹ thuật lớp 4-5, nhiều chi tiết, giúp phát triển tư duy và kỹ năng lắp ráp.', 92000, 82800, 20, 'images/products/ht1.jpg', 2, 0, 0),
 (17, 'Thước Bộ Eke - Keyroad KR971430', 'Thước bộ Eke gồm thước thẳng, thước đo góc, 2 thước eke, nhựa cứng, chia vạch chính xác.', 19000, 19000, 20, 'images/products/ht2.jpg', 2, 0, 0),
-(18, 'Tập Doraemon Fly A5 96 Trang', 'Tập Doraemon Fly A5 96 trang, 5 ô ly, giấy 120g/m2, bìa màu trắng, thích hợp học sinh tiểu học.', 27000, 27000, 200, 'images/products/ht3.jpg', 4, 0, 0),
+(18, 'Tập Doraemon Fly A5 96 Trang', 'Tập Doraemon Fly A5 96 trang, 5 ô ly, giấy 120g/m2, bìa màu trắng, thích hợp học sinh tiểu học.', 27000, 27000, 199, 'images/products/ht3.jpg', 4, 0, 0),
 (19, 'Bìa Còng 5P F4 Kokuyo', 'Bìa còng 5P F4 Kokuyo, simili cao cấp, bền, màu xanh, tiện lưu trữ tài liệu.', 85000, 76500, 10, 'images/products/vp5.jpg', 3, 0, 0),
-(20, 'Bóp Viết Vải Polyester', 'Bóp viết 2 ngăn, chất liệu vải polyester chống thấm, tiện mang theo bút viết và dụng cụ học tập.', 70000, 63000, 20, 'images/products/ht4.jpg', 2, 0, 0),
+(20, 'Bóp Viết Vải Polyester', 'Bóp viết 2 ngăn, chất liệu vải polyester chống thấm, tiện mang theo bút viết và dụng cụ học tập.', 70000, 63000, 20, 'images/products/ht4.jpg', 2, 10, 0),
 (21, 'Sổ Diary The Sun', 'Sổ diary The Sun, giấy chất lượng cao, bìa đẹp, thích hợp ghi chép cá nhân và học tập.', 39000, 35100, 50, 'images/products/g4.jpg', 4, 0, 0);
 
 -- --------------------------------------------------------
@@ -170,19 +191,12 @@ ALTER TABLE `danhmuc`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `diachi`
---
-ALTER TABLE `diachi`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `nguoidung_id` (`nguoidung_id`);
-
---
 -- Chỉ mục cho bảng `donhang`
 --
 ALTER TABLE `donhang`
   ADD PRIMARY KEY (`id`),
   ADD KEY `nguoidung_id` (`nguoidung_id`),
-  ADD KEY `diachi_id` (`diachi_id`);
+  ADD KEY `diachi_id` (`diachi`);
 
 --
 -- Chỉ mục cho bảng `donhangct`
@@ -216,22 +230,16 @@ ALTER TABLE `danhmuc`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `diachi`
---
-ALTER TABLE `diachi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT cho bảng `donhang`
 --
 ALTER TABLE `donhang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `donhangct`
 --
 ALTER TABLE `donhangct`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `mathang`
@@ -248,12 +256,6 @@ ALTER TABLE `nguoidung`
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
-
---
--- Các ràng buộc cho bảng `diachi`
---
-ALTER TABLE `diachi`
-  ADD CONSTRAINT `diachi_ibfk_1` FOREIGN KEY (`nguoidung_id`) REFERENCES `nguoidung` (`id`) ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `donhang`
