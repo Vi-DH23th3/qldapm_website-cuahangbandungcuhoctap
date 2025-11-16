@@ -8,7 +8,7 @@
 	
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 
-	<title>Trang quản trị - ABC Shop</title>
+	<title>Trang quản trị - ClassTools Shop</title>
 
 	<link href="../inc/css/app.css" rel="stylesheet">
 	<script src="../inc/js/app.js"></script>
@@ -21,7 +21,7 @@
 		<nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="">
-          <span class="align-middle">ABC Shop</span>
+          <span class="align-middle">ClassTools Shop</span>
         </a>
 
 				<ul class="sidebar-nav">
