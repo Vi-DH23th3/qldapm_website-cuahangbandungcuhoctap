@@ -16,18 +16,21 @@ if(!isset($_SESSION["nguoidung"])){
 
 require("../../model/database.php");
 require("../../model/donhang.php");
+require("../../model/khachhang.php");
 
 // Xét action
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : "xem";
 
 $dh = new DONHANG();
-
+$kh = new KHACHHANG();
 switch($action){
     case "daonhthungay":
         $ngaybd = $_GET["txtNgayBD"];
         $ngaykt = $_GET["txtNgayKT"];
 
         $doanhthu = $dh->doanhthutheongay($ngaybd, $ngaykt);
+        $dt_mathang = $dh->mathangbanchay();
+        $khachhang = $kh->topkhachhang();
         include("main.php");
         break;
 
