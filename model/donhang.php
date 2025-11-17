@@ -31,5 +31,27 @@ class DONHANG{
             exit();
 		}
 	}
+	public function mathangbanchay(){
+		$dbcon = DATABASE::connect();
+		try{
+			$sql = "SELECT mh.tenmathang AS TenMatHang, SUM(dhct.soluong) AS DaBan
+					FROM donhangct dhct
+					JOIN mathang mh ON dhct.mathang_id = mh.id
+					GROUP BY mh.id, mh.tenmathang
+					ORDER BY DaBan DESC
+					LIMIT 5";
+			$cmd = $dbcon->prepare($sql);
+			$cmd->execute();
+			$result = $cmd->fetchAll(PDO::FETCH_ASSOC);
+			$cmd->closeCursor();
+			return $result;
+		}
+		catch(PDOException $e){
+			$error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+		}
+    }
+
 }
 ?>

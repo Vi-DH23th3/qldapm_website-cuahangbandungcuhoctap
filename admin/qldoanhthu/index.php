@@ -9,10 +9,10 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Kiểm tra đăng nhập
-if(!isset($_SESSION["nguoidung"])){
-    header("location:../index.php");
-    exit();
-}
+// if(!isset($_SESSION["nguoidung"])){
+//     header("location:../index.php");
+//     exit();
+// }
 
 require("../../model/database.php");
 require("../../model/donhang.php");
@@ -24,10 +24,15 @@ $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : "xem";
 $dh = new DONHANG();
 $kh = new KHACHHANG();
 switch($action){
-    case "daonhthungay":
-        $ngaybd = $_GET["txtNgayBD"];
-        $ngaykt = $_GET["txtNgayKT"];
-
+    case "daonhthu":
+        if(isset($_GET["txtNgayBD"]) && isset($_GET["txtNgayKT"])){
+            $ngaybd = $_GET["txtNgayBD"];
+            $ngaykt = $_GET["txtNgayKT"];
+        }
+        else{
+            $ngaybd = " ";
+            $ngaykt = " ";
+        }
         $doanhthu = $dh->doanhthutheongay($ngaybd, $ngaykt);
         $dt_mathang = $dh->mathangbanchay();
         $khachhang = $kh->topkhachhang();
@@ -37,6 +42,6 @@ switch($action){
     default:
         // Mặc định: show form rỗng
         $doanhthu = [];
-        include("main.php");
+        header("Location:index.php?action=daonhthu");
         break;
 }

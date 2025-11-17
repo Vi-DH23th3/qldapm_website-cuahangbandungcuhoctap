@@ -7,19 +7,24 @@
     <form class="row g-3 align-items-center" method="get" action="index.php">
         <input type="hidden" name="action" value="daonhthungay">
 
-        <div class="col-md-3">
-            <label for="txtNgayBD" class="form-label">Từ ngày:</label>
-            <input type="date" class="form-control" id="txtNgayBD" name="txtNgayBD" required>
-        </div>
+        <form method="get" action="index.php">
+            <input type="hidden" name="action" value="daonhthu">
+            <div class="col-md-3">
+                <label for="txtNgayBD" class="form-label">Từ ngày:</label>
+                <input type="date" class="form-control" id="txtNgayBD" name="txtNgayBD" required>
+            </div>
 
-        <div class="col-md-3">
-            <label for="txtNgayKT" class="form-label">Đến ngày:</label>
-            <input type="date" class="form-control" id="txtNgayKT" name="txtNgayKT" required>
-        </div>
+            <div class="col-md-3">
+                <label for="txtNgayKT" class="form-label">Đến ngày:</label>
+                <input type="date" class="form-control" id="txtNgayKT" name="txtNgayKT" required>
+            </div>
 
-        <div class="col-md-3 align-self-end">
-            <button type="submit" class="btn btn-primary">Thống kê</button>
-        </div>
+            <div class="col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary">Thống kê</button>
+            </div>
+        </form>
+
+        
     </form>
 </div>
 
