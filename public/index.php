@@ -2,14 +2,15 @@
 if (session_status() == PHP_SESSION_NONE) {
  session_start();
 }
-require("../model/database.php");
+require_once("../model/database.php");
 require("../model/danhmuc.php");
 require("../model/mathang.php");
+
 require("../model/giohang.php");
 require("../model/khachhang.php");
-//require("../model/diachi.php");
 require("../model/donhang.php");
 require("../model/donhangct.php");
+
 
 
 $dm = new DANHMUC();
@@ -128,13 +129,11 @@ switch($action){
         else{ // khách đã đăng nhập
             $khachhang_id = $_SESSION["khachhang"]["id"];           
             $hoten = $_SESSION["khachhang"]["hoten"];
-        }
-        
+       }     
         // lưu đơn hàng
         $dh = new DONHANG();
         $tongtien = tinhtiengiohang();
-        $donhang_id = $dh->themdonhang($khachhang_id,$diachi,$tongtien);
-        
+        $donhang_id = $dh->themdonhang($khachhang_id,$diachi,$tongtien);     
         // lưu chi tiết đơn hàng
         $ct = new DONHANGCT();      
         $giohang = laygiohang();
@@ -153,7 +152,7 @@ switch($action){
         // chuyển đến trang cảm ơn
         include("message.php");
         break;
-        case "dangnhap":
+    case "dangnhap":
         include("loginform.php");
         break;
     case "xldangnhap":
