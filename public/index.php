@@ -153,8 +153,60 @@ switch($action){
         // chuyển đến trang cảm ơn
         include("message.php");
         break;
-        case "thanhtoan":
-
+        case "dangnhap":
+        include("loginform.php");
+        break;
+    case "xldangnhap":
+        $email = $_POST["txtemail"];
+        $matkhau = $_POST["txtmatkhau"];
+        $kh = new KHACHHANG();
+        if($kh->kiemtrakhachhanghople($email,$matkhau)==TRUE){
+            $_SESSION["khachhang"] = $kh->laythongtinkhachhang($email);
+            // đọc thông tin (đơn hàng) của kh
+            $dh = new DONHANG();
+            $donhang = $dh->laydanhsachdonhangtheokh($_SESSION["khachhang"]["id"]);
+            include("info.php");
+        }
+        else{
+            //$tb = "Đăng nhập không thành công!";
+            include("loginform.php");
+        }
+        break;
+    case "thongtin":
+        if(isset($_SESSION["khachhang"])){
+            // đọc thông tin các đơn của khách
+            $dh = new DONHANG();
+            $donhang = $dh->laydanhsachdonhangtheokh($_SESSION["khachhang"]["id"]);
+            
+            if(isset($_REQUEST["dhid"])){
+                $dhct = new DONHANGCT();
+                $donhangct = $dhct->laychitietdonhang($_REQUEST["dhid"]);
+            }
+        }
+        include("info.php"); // trang info.php hiển thị các đơn đã đặt
+        break;
+    case "dangxuat":
+        unset($_SESSION["khachhang"]);
+        // chuyển về trang chủ
+/*        // xử lý phân trang
+        $tongmh = $mh->demtongsomathang();   // tổng số mặt hàng
+        $soluong = 4;                           // số lượng mh hiển thị trên trang 
+        $tongsotrang = ceil($tongmh/$soluong);  // tổng số trang
+        if(!isset($_REQUEST["trang"]))          // trang hiện hành: mặc định là trang đầu
+            $tranghh = 1;   
+        else                                    // hoặc hiển thị trang do người dùng chọn
+            $tranghh = $_REQUEST["trang"];
+        if($tranghh > $tongsotrang)
+            $tranghh = $tongsotrang;
+        else if($tranghh < 1)
+            $tranghh = 1;
+        $batdau = ($tranghh-1)*$soluong;          // mặt hàng bắt đầu sẽ lấy
+        $mathang = $mh->laymathangphantrang($batdau, $soluong);
+*/
+        $mathang = $mh->laymathang();   
+        include("main.php");
+        break;    
+    default:
         break;
 }
 ?>
