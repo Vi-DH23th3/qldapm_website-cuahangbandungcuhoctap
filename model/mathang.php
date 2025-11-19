@@ -210,6 +210,33 @@ class MATHANG{
             exit();
         }
     }
+    
+    public function xuathang($id, $soluong){
+        $dbcon = DATABASE::connect();
+        try{
+            $sqlCheck = "SELECT soluongton FROM mathang WHERE id=:id";
+            $cmdCheck = $dbcon->prepare($sqlCheck);
+            $cmdCheck->bindValue(":id", $id);
+            $cmdCheck->execute();
+            $result = $cmdCheck->fetch();
+            if($result['soluongton'] < $soluong){ return false; }
+            $sql = "UPDATE mathang SET soluongton = soluongton - :soluong WHERE id=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":soluong", $soluong);
+            $cmd->bindValue(":id", $id);
+            return $cmd->execute();
+        } catch(PDOException $e){ return false; }
+    }
+    public function nhaphang($id, $soluong){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "UPDATE mathang SET soluongton = soluongton + :soluong WHERE id=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":soluong", $soluong);
+            $cmd->bindValue(":id", $id);
+            return $cmd->execute();
+        } catch(PDOException $e){ return false; }
+    }
 
 }
 ?>

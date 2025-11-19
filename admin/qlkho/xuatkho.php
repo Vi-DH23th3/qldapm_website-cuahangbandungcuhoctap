@@ -1,0 +1,24 @@
+<?php include("../inc/top.php"); ?>
+<div class="container p-0">
+    <h4 class="text-danger mb-3">⬅ Xuất Kho</h4>
+    <div class="card col-md-8 mx-auto">
+        <div class="card-header"><h5>Phiếu Xuất Kho</h5></div>
+        <div class="card-body">
+            <form action="index.php" method="post">
+                <input type="hidden" name="action" value="xl_xuatkho">
+                <div class="mb-3">
+                    <label class="form-label">Mặt Hàng (*)</label>
+                    <select name="mathang_id" class="form-select" required>
+                        <option value="">-- Chọn mặt hàng --</option>
+                        <?php foreach($mathang as $m): ?>
+                            <option value="<?php echo $m['id']; ?>"><?php echo $m['tenmathang']; ?> (Tồn: <?php echo $m['soluongton']; ?>)</option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3"><label class="form-label">Số Lượng Xuất (*)</label><input type="number" name="soluong" class="form-control" min="1" required></div>
+                <div class="text-center"><button type="submit" class="btn btn-danger">Lưu Phiếu Xuất</button><a href="index.php" class="btn btn-warning">Hủy</a></div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php include("../inc/bottom.php"); ?>
