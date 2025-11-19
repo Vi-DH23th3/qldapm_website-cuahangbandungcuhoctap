@@ -2,14 +2,15 @@
 if (session_status() == PHP_SESSION_NONE) {
  session_start();
 }
-require("../model/database.php");
+require_once("../model/database.php");
 require("../model/danhmuc.php");
 require("../model/mathang.php");
-//require("../model/giohang.php");
-//require("../model/khachhang.php");
-//require("../model/diachi.php");
+
+require("../model/giohang.php");
+require("../model/khachhang.php");
 require("../model/donhang.php");
-//require("../model/donhangct.php");
+require("../model/donhangct.php");
+
 
 
 $dm = new DANHMUC();
@@ -27,6 +28,7 @@ else{
 
 switch($action){
     case "null": 	
+        $danhmuc = $dm->laydanhmuc();
     	$mathang = $mh->laymathang();	
         include("main.php");
         break;
@@ -56,53 +58,58 @@ switch($action){
         }
         break;
     case "chovaogio":    
-        if(isset($_REQUEST["id"]))
-            $id = $_REQUEST["id"];
-        if(isset($_REQUEST["soluong"]))
-            $soluong = $_REQUEST["soluong"];
-        else
-            $soluong = 1;
+            if(isset($_REQUEST["id"]))
+                $id = $_REQUEST["id"];
+            if(isset($_REQUEST["soluong"]))
+                $soluong = $_REQUEST["soluong"];
+            else
+                $soluong = 1;
 
-        if(isset($_SESSION['giohang'][$id])){ // nếu đã có trong giỏ thì tăng số lượng
-            $soluong += $_SESSION['giohang'][$id];
-            $_SESSION['giohang'][$id] = $soluong;
-        }
-        else{       // nếu chưa thì thêm vào giỏ
-            themhangvaogio($id, $soluong);
-        }
-        
-        $giohang = laygiohang();   
-        include("cart.php");
-        break;
-    case "giohang":  
-        $giohang = laygiohang();   
-        include("cart.php");
-        break;
-    case "capnhatgio":
-        if(isset($_REQUEST["mh"])){
-            $mh = $_REQUEST["mh"];
-            foreach ($mh as $id => $soluong) {
-                if($soluong > 0)
-                    capnhatsoluong($id, $soluong);
-                else 
-                    xoamotmathang($id);                
+            if(isset($_SESSION['giohang'][$id])){ // nếu đã có trong giỏ thì tăng số lượng
+                $soluong += $_SESSION['giohang'][$id];
+                $_SESSION['giohang'][$id] = $soluong;
             }
-        }  
-        $giohang = laygiohang();   
-        include("cart.php");
-        break;
-    case "xoagiohang":  
-        xoagiohang();
-        $giohang = laygiohang();   
-        include("cart.php");
-        break;
+            else{       // nếu chưa thì thêm vào giỏ
+                themhangvaogio($id, $soluong);
+            }
+            
+            $giohang = laygiohang();   
+            header("Location: index.php?action=giohang");
+            exit(); 
+            break;
+
+        case "giohang":  
+            $giohang = laygiohang();   
+            include("giohang.php");
+            break;
+        case "capnhatgio":
+            if(isset($_REQUEST["mh"])){
+                $mh = $_REQUEST["mh"];
+                foreach ($mh as $id => $soluong) {
+                    if($soluong > 0)
+                        capnhatsoluong($id, $soluong);
+                    else 
+                        xoamotmathang($id);                
+                }
+            }  
+            $giohang = laygiohang();   
+            include("giohang.php");
+            break;
+        case "xoagiohang":  
+            xoagiohang();
+            $giohang = laygiohang();   
+            include("giohang.php");
+            break;
+        case "xoamotmathang":
+            if(isset($_GET['id'])){
+                $id = $_GET['id'];
+                xoamotmathang($id);
+            }
+            header("Location: index.php?action=giohang");
+            break;
     case "thanhtoan":        
         $giohang = laygiohang();
-        if(isset($_SESSION["khachhang"])){ // lay dia chi khach hang
-            $dc = new DIACHI();
-            $diachi = $dc->laydiachikhachhang($_SESSION["khachhang"]["id"]);
-        }
-        include("checkout.php");
+        include("thanhtoan.php");
         break;
     case "luudonhang": 
         
@@ -117,32 +124,16 @@ switch($action){
             $kh = new KHACHHANG();
             if($kh->laythongtinkhachhang($email) == null){
             $khachhang_id = $kh->themkhachhang($email,$sodienthoai,$hoten);
-            // lưu địa chỉ giao hàng 
-            // cần xử lý địa chỉ cho 2 trường hợp if... else
-            $dc = new DIACHI();
-            $diachi_id = $dc->themdiachi($khachhang_id,$diachi);
-            }
-            else{
-                $khachhang = $kh->laythongtinkhachhang($email);
-                $khachhang_id = $khachhang["id"];
-                $dc = new DIACHI();
-                $diachi = $dc->laydiachikhachhang($khachhang_id);            
-                $diachi_id = $diachi["id"];
-            }            
+            }         
         }
         else{ // khách đã đăng nhập
             $khachhang_id = $_SESSION["khachhang"]["id"];           
             $hoten = $_SESSION["khachhang"]["hoten"];
-            $dc = new DIACHI();
-            $diachi = $dc->laydiachikhachhang($khachhang_id);            
-            $diachi_id = $diachi["id"];
-        }
-        
+       }     
         // lưu đơn hàng
         $dh = new DONHANG();
         $tongtien = tinhtiengiohang();
-        $donhang_id = $dh->themdonhang($khachhang_id,$diachi_id,$tongtien);
-        
+        $donhang_id = $dh->themdonhang($khachhang_id,$diachi,$tongtien);     
         // lưu chi tiết đơn hàng
         $ct = new DONHANGCT();      
         $giohang = laygiohang();
