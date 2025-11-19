@@ -8,7 +8,7 @@ class MATHANG{
     private $giaban;
     private $soluongton;
     private $hinhanh;
-    private $danhmucid;
+    private $danhmuc_id;
     private $luotxem;
     private $luotmua;
 

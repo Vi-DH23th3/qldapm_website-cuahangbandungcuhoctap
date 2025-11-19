@@ -41,8 +41,8 @@
                         <?php } else{ ?>
                             <a href="index.php?action=dangnhap" class="btn btn-outline-light"><i class="bi bi-person"></i> Đăng nhập</a>
                         <?php } ?>
-                        &nbsp;<a href="index.php?action=giohang" class="btn btn-outline-light" ><i class="bi bi-cart3"></i> Giỏ hàng <span class="badge bg-danger text-white ms-1 rounded-pill">
-                </div>
+                        &nbsp;<a href="index.php?action=giohang" class="btn btn-outline-light" ><i class="bi bi-cart3"></i> Giỏ hàng <span class="badge bg-danger text-white ms-1 rounded-pill"><?php echo demhangtronggio(); ?></span></a>
+</div>
             </div>
         </nav>
         
