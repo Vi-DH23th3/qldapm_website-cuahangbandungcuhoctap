@@ -27,6 +27,37 @@ switch($action){
     case "macdinh":               
         include("main.php");
         break;
+    
+    case "dangky":
+        include("signup.php");
+        break;
+
+    case "xldangky":
+        $email = $_POST["txtemail"];
+        $nd = new NGUOIDUNG();
+        
+        // Kiểm tra email đã tồn tại chưa (dùng hàm có sẵn)
+        if($nd->laythongtinnguoidung($email)){
+            $tb = "Email này đã được sử dụng!";
+            include("signup.php");
+        } else {
+            // Tạo đối tượng người dùng mới
+            $ndmoi = new NGUOIDUNG();
+            $ndmoi->sethoten($_POST["txthoten"]);
+            $ndmoi->setsodienthoai($_POST["txtsodt"]);
+            $ndmoi->setemail($email);
+            $ndmoi->setmatkhau($_POST["txtmatkhau"]);
+            $ndmoi->setloai(2); // Mặc định đăng ký là QUẢN TRỊ (1) luôn để bạn dễ test
+            
+            if($nd->themnguoidung($ndmoi)){
+                echo "<script>alert('Đăng ký thành công! Vui lòng đăng nhập.'); window.location.href='index.php';</script>";
+            } else {
+                $tb = "Lỗi không thể đăng ký!";
+                include("signup.php");
+            }
+        }
+        break;
+    
     case "dangnhap":
         include("login.php");
         break;
