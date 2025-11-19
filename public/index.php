@@ -152,6 +152,74 @@ switch($action){
         // chuyển đến trang cảm ơn
         include("message.php");
         break;
+
+    case "hoso":
+        include("profile.php");
+        break;
+    case "xlhoso":
+        $id = $_POST["txtid"];
+        $hoten = $_POST["txthoten"];
+        $sodt = $_POST["txtsodienthoai"];
+        $kh = new KHACHHANG();
+        $kh->capnhatkhachhang($id, $sodt, $hoten);
+        $_SESSION["khachhang"]["hoten"] = $hoten;
+        $_SESSION["khachhang"]["sodienthoai"] = $sodt;
+        include("info.php");
+        break;
+
+    case "dangky":
+        include("signup.php");
+        break;
+    case "xldangky":
+        $email = $_POST["txtemail"];
+        $hoten = $_POST["txthoten"];
+        $sodt = $_POST["txtsodienthoai"];
+        $matkhau = $_POST["txtmatkhau"];
+        $kh = new KHACHHANG();
+        if($kh->dangkytaikhoan($email, $sodt, $hoten, $matkhau) == true){
+            $tb = "Đăng ký thành công! Vui lòng đăng nhập ngay.";
+            include("loginform.php");
+        } else {
+            $tb = "Email này đã có người sử dụng!";
+            include("signup.php");
+        }
+        break;
+
+    case "quenmatkhau":
+        include("forgotpass.php");
+        break;
+    case "xacnhanemail":
+        $email = $_POST["txtemail"];
+        $kh = new KHACHHANG();
+        if($kh->kiemtraemail($email)){
+            $email_xacnhan = $email;
+            include("forgotpass.php");
+        } else {
+            $tb = "Email này không tồn tại!";
+            include("forgotpass.php");
+        }
+        break;
+    case "luumatkhaumoi":
+        $email = $_POST["txtemail"];
+        $matkhau = $_POST["txtmatkhau"];
+        $matkhau2 = $_POST["txtmatkhau2"];
+        if($matkhau != $matkhau2){
+            $tb = "Mật khẩu xác nhận không khớp!";
+            $email_xacnhan = $email;
+            include("forgotpass.php");
+        } else {
+            $kh = new KHACHHANG();
+            if($kh->resetmatkhau($email, $matkhau)){
+                $tb = "Đổi mật khẩu thành công! Mời đăng nhập.";
+                include("loginform.php");
+            } else {
+                $tb = "Lỗi hệ thống.";
+                include("forgotpass.php");
+            }
+        }
+        break;
+
+
     case "dangnhap":
         include("loginform.php");
         break;
