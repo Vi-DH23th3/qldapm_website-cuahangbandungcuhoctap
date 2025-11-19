@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 16, 2025 lúc 03:07 AM
+-- Thời gian đã tạo: Th10 19, 2025 lúc 05:38 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Phiên bản PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,7 +68,8 @@ INSERT INTO `donhang` (`id`, `nguoidung_id`, `diachi`, `ngay`, `tongtien`, `ghic
 (4, 1, 'Long Xuyên, An Giang', '2025-11-13 08:10:00', 180000, NULL),
 (5, 5, 'Đồng Tháp', '2025-11-14 16:30:00', 140700, 'Để trước cửa nếu không có nhà'),
 (6, 4, 'Hội An, Chợ Mới, An Giang', '2025-11-16 08:43:43', 738000, NULL),
-(7, 4, 'Trường Đại học An Giang', '2025-11-16 08:55:47', 124200, NULL);
+(7, 4, 'Trường Đại học An Giang', '2025-11-16 08:55:47', 124200, NULL),
+(8, 4, '<br />\r\n<b>Warning</b>:  Undefined variable $diach', '2025-11-19 21:23:15', 1360000, NULL);
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,8 @@ INSERT INTO `donhangct` (`id`, `donhang_id`, `mathang_id`, `dongia`, `soluong`, 
 (12, 5, 13, 97200, 1, 97200),
 (13, 6, 2, 738000, 1, 738000),
 (14, 7, 18, 27000, 1, 27000),
-(15, 7, 13, 97200, 1, 97200);
+(15, 7, 13, 97200, 1, 97200),
+(16, 8, 1, 680000, 2, 1360000);
 
 -- --------------------------------------------------------
 
@@ -130,7 +132,7 @@ CREATE TABLE `mathang` (
 --
 
 INSERT INTO `mathang` (`id`, `tenmathang`, `mota`, `giagoc`, `giaban`, `soluongton`, `hinhanh`, `danhmuc_id`, `luotxem`, `luotmua`) VALUES
-(1, 'Máy Tính Casio FX-580VN X', 'Máy tính khoa học Casio FX-580VN X, tích hợp 521 tính năng, hỗ trợ học tập và làm bài kiểm tra. Màn hình hiển thị rõ ràng, pin bền, dễ mang đi học.', 750000, 680000, 15, 'images/products/mt1.jpg', 1, 0, 0),
+(1, 'Máy Tính Casio FX-580VN X', 'Máy tính khoa học Casio FX-580VN X, tích hợp 521 tính năng, hỗ trợ học tập và làm bài kiểm tra. Màn hình hiển thị rõ ràng, pin bền, dễ mang đi học.', 750000, 680000, 13, 'images/products/mt1.jpg', 1, 1, 0),
 (2, 'Máy Tính Casio FX-880BTG', 'Máy tính Casio fx-880BTG, dòng ClassWiz, kết nối Bluetooth, hỗ trợ QR Code và các chức năng nâng cao, phù hợp học sinh và sinh viên.', 820000, 738000, 9, 'images/products/mt2.jpg', 1, 3, 0),
 (3, 'Máy Tính Casio SX-100', 'Máy tính văn phòng Casio SX-100, thiết kế nhỏ gọn, dễ sử dụng, màn hình lớn đọc dữ liệu nhanh.', 200000, 180000, 20, 'images/products/mt3.jpg', 1, 3, 0),
 (4, 'Bút Bi Thiên Long TL-123', 'Bút bi Thiên Long TL-123, mực trơn, màu xanh, viết êm, tiện dụng cho học sinh, thiết kế vừa tay cầm.', 5000, 4500, 100, 'images/products/b1.jpg', 2, 0, 0),
@@ -150,7 +152,7 @@ INSERT INTO `mathang` (`id`, `tenmathang`, `mota`, `giagoc`, `giaban`, `soluongt
 (18, 'Tập Doraemon Fly A5 96 Trang', 'Tập Doraemon Fly A5 96 trang, 5 ô ly, giấy 120g/m2, bìa màu trắng, thích hợp học sinh tiểu học.', 27000, 27000, 199, 'images/products/ht3.jpg', 4, 0, 0),
 (19, 'Bìa Còng 5P F4 Kokuyo', 'Bìa còng 5P F4 Kokuyo, simili cao cấp, bền, màu xanh, tiện lưu trữ tài liệu.', 85000, 76500, 10, 'images/products/vp5.jpg', 3, 0, 0),
 (20, 'Bóp Viết Vải Polyester', 'Bóp viết 2 ngăn, chất liệu vải polyester chống thấm, tiện mang theo bút viết và dụng cụ học tập.', 70000, 63000, 20, 'images/products/ht4.jpg', 2, 10, 0),
-(21, 'Sổ Diary The Sun', 'Sổ diary The Sun, giấy chất lượng cao, bìa đẹp, thích hợp ghi chép cá nhân và học tập.', 39000, 35100, 50, 'images/products/g4.jpg', 4, 0, 0);
+(21, 'Sổ Diary The Sun', 'Sổ diary The Sun, giấy chất lượng cao, bìa đẹp, thích hợp ghi chép cá nhân và học tập.', 39000, 35100, 150, 'images/products/g4.jpg', 4, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -174,11 +176,35 @@ CREATE TABLE `nguoidung` (
 --
 
 INSERT INTO `nguoidung` (`id`, `email`, `sodienthoai`, `matkhau`, `hoten`, `loai`, `trangthai`, `hinhanh`) VALUES
-(1, 'abc@abc.com', '0988994683', '900150983cd24fb0d6963f7d28e17f72', 'Long Xuyên', 1, 1, 'signup.png'),
-(2, 'def@abc.com', '11111111', '900150983cd24fb0d6963f7d28e17f72', 'Mèo máy Doraemon', 2, 1, 'avatar.jpg'),
+(1, 'abc@abc.com', '0988994683', '4786f3282f04de5b5c7317c490c6d922', 'an gia', 1, 1, 'signup.png'),
+(2, 'def@abc.com', '11111111', '4786f3282f04de5b5c7317c490c6d922', 'Mèo máy', 2, 1, 'avatar.jpg'),
 (3, 'ghi@abc.com', '0988994685', '900150983cd24fb0d6963f7d28e17f72', 'Nhân viên GHI', 2, 1, NULL),
-(4, 'kh1@gmail.com', '0988994686', '900150983cd24fb0d6963f7d28e17f72', 'Nguyễn Thị Thu An', 3, 1, NULL),
-(5, 'kh2@gmail.com', '0988994687', '900150983cd24fb0d6963f7d28e17f72', 'Hồ Xuân Minh', 3, 1, NULL);
+(4, 'kh1@gmail.com', '0988994686', '900150983cd24fb0d6963f7d28e17f72', 'Nguyễn Thị Thu ', 3, 1, NULL),
+(5, 'kh2@gmail.com', '0988994687', '900150983cd24fb0d6963f7d28e17f72', 'Hồ Xuân Minh', 3, 1, NULL),
+(6, 'an@gmail.com', '989989898', '4786f3282f04de5b5c7317c490c6d922', 'Lê Văn An', 3, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `nhacungcap`
+--
+
+CREATE TABLE `nhacungcap` (
+  `id` int(11) NOT NULL,
+  `tenncc` varchar(255) NOT NULL,
+  `diachi` varchar(255) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `sodienthoai` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `nhacungcap`
+--
+
+INSERT INTO `nhacungcap` (`id`, `tenncc`, `diachi`, `email`, `sodienthoai`) VALUES
+(2, 'Kokuyo Việt Nam', 'Hà Nội', 'sales@kokuyo.vn', '0907654321'),
+(3, 'Casio Nhật Bản', 'Tokyo, Nhật Bản', 'support@casio.jp', '0123456789'),
+(5, 'ggg', 'Phú Hữu', 'ngoc@gmail.com', '1234566');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -220,6 +246,12 @@ ALTER TABLE `nguoidung`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `nhacungcap`
+--
+ALTER TABLE `nhacungcap`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -233,13 +265,13 @@ ALTER TABLE `danhmuc`
 -- AUTO_INCREMENT cho bảng `donhang`
 --
 ALTER TABLE `donhang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `donhangct`
 --
 ALTER TABLE `donhangct`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `mathang`
@@ -251,6 +283,12 @@ ALTER TABLE `mathang`
 -- AUTO_INCREMENT cho bảng `nguoidung`
 --
 ALTER TABLE `nguoidung`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `nhacungcap`
+--
+ALTER TABLE `nhacungcap`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
