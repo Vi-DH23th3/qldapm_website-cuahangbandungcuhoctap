@@ -40,6 +40,9 @@
 											<label class="form-label">Mật khẩu</label>
 											<input class="form-control form-control-lg" type="password" name="txtmatkhau" placeholder="Nhập mật khẩu" />
 										</div>
+										<div class="mb-3 text-end">
+ 											<a href="index.php?action=quenmatkhau">Quên mật khẩu?</a>
+										 </div>
 								<!--		<div>
 											<div class="form-check align-items-center">
 												<input id="customControlInline" type="checkbox" class="form-check-input" value="remember-me" name="remember-me" checked>

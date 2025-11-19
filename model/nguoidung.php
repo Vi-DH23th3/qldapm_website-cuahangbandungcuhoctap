@@ -3,6 +3,8 @@ require_once("database.php");
 
 class NGUOIDUNG {
     private $db;
+    private $id;
+    private $hinhanh;
 
     public function __construct() {
         $this->db = DATABASE::connect();
@@ -28,6 +30,21 @@ class NGUOIDUNG {
 
     public function setloai($value) {
         $this->loai = $value;
+    }
+    public function setid($value) { 
+        $this->id = $value; 
+    }
+    public function getid() { 
+        return $this->id; 
+    }
+    public function sethinhanh($value) { 
+        $this->hinhanh = $value; 
+    }
+    public function gethinhanh() { 
+        return $this->hinhanh; 
+    }
+    public function getemail() { 
+        return $this->email; 
     }
 
     // ====== LẤY DANH SÁCH =======
@@ -65,6 +82,40 @@ class NGUOIDUNG {
         $sql = "UPDATE nguoidung SET trangthai = ? WHERE id = ?";
         $stm = $this->db->prepare($sql);
         return $stm->execute([$trangthai, $id]);
+    }
+    // Kiểm tra đăng nhập Admin
+    public function kiemtranguoidunghople($email, $matkhau){
+        $db = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM nguoidung WHERE email=:email AND matkhau=:matkhau AND trangthai=1";
+            $cmd = $db->prepare($sql);
+            $cmd->bindValue(":email", $email);
+            $cmd->bindValue(":matkhau", md5($matkhau));
+            $cmd->execute();
+            return $cmd->rowCount() == 1;
+        }
+        catch(PDOException $e){ return false; }
+    }
+
+    // Cập nhật thông tin Admin
+    public function capnhatnguoidung($nd) {
+        $sql = "UPDATE nguoidung SET email = :email, sodienthoai = :sodt, hoten = :hoten, hinhanh = :hinhanh WHERE id = :id";
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(':email', $nd->email);
+        $stm->bindValue(':sodt', $nd->sodienthoai);
+        $stm->bindValue(':hoten', $nd->hoten);
+        $stm->bindValue(':hinhanh', $nd->hinhanh);
+        $stm->bindValue(':id', $nd->id);
+        return $stm->execute();
+    }
+
+    // Đổi mật khẩu Admin
+    public function doimatkhau($nd){
+        $sql = "UPDATE nguoidung SET matkhau = :matkhau WHERE email = :email";
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(':matkhau', $nd->matkhau);
+        $stm->bindValue(':email', $nd->email);
+        return $stm->execute();
     }
 }
 ?>

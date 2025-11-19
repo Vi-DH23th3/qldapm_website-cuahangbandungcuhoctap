@@ -83,5 +83,40 @@ switch($action){
         break; 
     default:
         break;
+
+    case "quenmatkhau":
+        include("forgotpass.php");
+        break;
+    case "xacnhanemail":
+        $email = $_POST["txtemail"];
+        $nd = new NGUOIDUNG();
+        if($nd->laythongtinnguoidung($email)){
+            $email_xacnhan = $email;
+            include("forgotpass.php");
+        } else {
+            $tb = "Email này không tồn tại trong hệ thống Admin!";
+            include("forgotpass.php");
+        }
+        break;
+    case "luumatkhaumoi":
+        $email = $_POST["txtemail"];
+        $matkhau = $_POST["txtmatkhau"];
+        $matkhau2 = $_POST["txtmatkhau2"];
+        if($matkhau != $matkhau2){
+            $tb = "Mật khẩu xác nhận không khớp!";
+            $email_xacnhan = $email;
+            include("forgotpass.php");
+        } else {
+            $ndcapnhat = new NGUOIDUNG();
+            $ndcapnhat->setemail($email);
+            $ndcapnhat->setmatkhau($matkhau);
+            if($nd->doimatkhau($ndcapnhat)){
+                echo "<script>alert('Đổi mật khẩu thành công! Vui lòng đăng nhập.'); window.location.href='index.php';</script>";
+            } else {
+                $tb = "Lỗi hệ thống!";
+                include("forgotpass.php");
+            }
+        }
+        break;
 }
 ?>
