@@ -72,5 +72,17 @@ class DONHANG{
 			exit();
 		}
 	}
+	// Lấy danh sách đơn hàng của khách
+    public function laydanhsachdonhangtheokh($nguoidung_id){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM donhang WHERE nguoidung_id=:nguoidung_id ORDER BY id DESC";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":nguoidung_id", $nguoidung_id);
+            $cmd->execute();
+            return $cmd->fetchAll();
+        }
+        catch(PDOException $e){ return null; }
+    }
 }
 ?>
