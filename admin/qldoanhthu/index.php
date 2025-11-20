@@ -9,12 +9,12 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Kiểm tra đăng nhập
-if(!isset($_SESSION["nguoidung"])){
-    header("location:../index.php");
-    exit();
-}
+// if(!isset($_SESSION["nguoidung"])){
+//     header("location:../index.php");
+//     exit();
+// }
 
-require("../../model/database.php");
+require_once("../../model/database.php");
 require("../../model/donhang.php");
 require("../../model/khachhang.php");
 
@@ -34,8 +34,9 @@ switch($action){
         include("main.php");
         break;
 
-    default:
-        // Mặc định: show form rỗng
+    case "xem":
+        $dt_mathang = $dh->mathangbanchay();
+        $khachhang = $kh->topkhachhang();
         $doanhthu = [];
         include("main.php");
         break;
