@@ -63,13 +63,13 @@
 						KINH DOANH
 					</li>
 					
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="">
+					<li class="sidebar-item <?php if(strpos($_SERVER['REQUEST_URI'],"qlkhachhang") != false) echo "active"; ?>">
+						<a class="sidebar-link" href="../qlkhachhang/index.php">
 						<i class="align-middle" data-feather="users"></i> <span class="align-middle">Quản lý khách hàng</span>
 						</a>
 					</li>
 
-					<li class="sidebar-item">
+					<li class="sidebar-item <?php if(strpos($_SERVER['REQUEST_URI'],"qldonhang") != false) echo "active"; ?>">
 						<a class="sidebar-link" href="">
 						<i class="align-middle" data-feather="truck"></i> <span class="align-middle">Quản lý đơn hàng</span>
 						</a>
