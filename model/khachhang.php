@@ -141,6 +141,40 @@
         }
         catch(PDOException $e){ return false; }
     }
+    //tìm khách hàng
+    public function timkiem($tim){
+        $db = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM nguoidung 
+                    WHERE email LIKE :tim 
+                    OR hoten LIKE :tim
+                    AND loai=3 AND trangthai=1";
+            $cmd = $db->prepare($sql);
+            $cmd->bindValue(":tim", "%$tim%");
+            $cmd->execute();
+            return $cmd->fetchAll(PDO::FETCH_ASSOC);
+        }
+		catch(PDOException $e){
+			$error_message=$e->getMessage();
+			echo "<p>Lỗi truy vấn: $error_message</p>";
+			exit();
+		}
+    }
+    public function laytatcakhachhang(){
+        $db = DATABASE::connect();
+		try{
+			$sql = "SELECT * FROM nguoidung WHERE loai=3 AND trangthai=1";
+			$cmd = $db->prepare($sql);
+			$cmd->execute();
+			$ketqua = $cmd->fetchALL(PDO::FETCH_ASSOC);
+			return $ketqua;
+		}
+		catch(PDOException $e){
+			$error_message=$e->getMessage();
+			echo "<p>Lỗi truy vấn: $error_message</p>";
+			exit();
+		}
+    }
 	
 }
 ?>
