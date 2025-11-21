@@ -84,5 +84,21 @@ class DONHANG{
         }
         catch(PDOException $e){ return null; }
     }
+	//lấy đơn hàng theo id
+	public function laydanhsachdonhangtheoid($id){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM donhang WHERE id=:id ORDER BY id ASC";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":id", $id);
+            $cmd->execute();
+            return $cmd->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e){ 
+			$error_message=$e->getMessage();
+			echo "<p>Lỗi truy vấn: $error_message</p>";
+			exit();
+		}
+    }
 }
 ?>
