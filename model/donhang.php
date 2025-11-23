@@ -100,5 +100,64 @@ class DONHANG{
 			exit();
 		}
     }
+	 private $db;
+
+    public function __construct() {
+        $this->db = DATABASE::connect();
+    }
+
+    public function laytatcadonhang() {
+        try {
+            $sql = "SELECT dh.*, nd.hoten
+                    FROM donhang dh
+                    INNER JOIN nguoidung nd 
+                        ON dh.nguoidung_id = nd.id
+                    ORDER BY dh.id DESC";
+
+            $cmd = $this->db->prepare($sql);
+            $cmd->execute();
+            return $cmd->fetchAll(PDO::FETCH_ASSOC);
+        } 
+        catch (PDOException $e) {
+            echo $e->getMessage();
+            return [];
+        }
+    }
+
+    public function timkiemdonhang($ma) {
+        try {
+            $sql = "SELECT dh.*, nd.hoten
+                    FROM donhang dh
+                    INNER JOIN nguoidung nd ON dh.nguoidung_id = nd.id
+                    WHERE dh.id = :ma";
+
+            $cmd = $this->db->prepare($sql);
+            $cmd->bindValue(":ma", $ma);
+            $cmd->execute();
+            return $cmd->fetchAll(PDO::FETCH_ASSOC);
+        } 
+        catch (PDOException $e) {
+            echo $e->getMessage();
+            return [];
+        }
+    }
+
+    public function laydonhangtheoid($id) {
+        try {
+            $sql = "SELECT dh.*, nd.hoten, nd.email, nd.sodienthoai
+                    FROM donhang dh
+                    INNER JOIN nguoidung nd ON dh.nguoidung_id = nd.id
+                    WHERE dh.id = :id";
+
+            $cmd = $this->db->prepare($sql);
+            $cmd->bindValue(":id", $id);
+            $cmd->execute();
+            return $cmd->fetch(PDO::FETCH_ASSOC);
+        } 
+        catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }
 ?>

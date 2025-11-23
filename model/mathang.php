@@ -38,7 +38,7 @@ class MATHANG{
     public function laymathang(){
         $dbcon = DATABASE::connect();
         try{
-            $sql = "SELECT * FROM mathang ORDER BY id DESC";
+            $sql = "SELECT * FROM mathang ORDER BY id";
             $cmd = $dbcon->prepare($sql);
             $cmd->execute();
             $result = $cmd->fetchAll();
