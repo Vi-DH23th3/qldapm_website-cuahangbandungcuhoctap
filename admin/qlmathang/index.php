@@ -8,6 +8,7 @@ if(!isset($_SESSION["nguoidung"])){
 require("../../model/database.php");
 require("../../model/danhmuc.php");
 require("../../model/mathang.php");
+require("../../model/nhacungcap.php");
 
 // Xét xem có thao tác nào được chọn
 if(isset($_REQUEST["action"])){
@@ -26,8 +27,11 @@ switch($action){
 		include("main.php");
         break;
 	case "them":
-		$danhmuc = $dm->laydanhmuc();
-		include("addform.php");
+        $danhmuc = $dm->laydanhmuc();
+        // Thêm đoạn lấy nhà cung cấp
+        $ncc = new NHACUNGCAP();
+        $nhacungcap = $ncc->laynhacungcap(); 
+        include("addform.php");
         break;
 	case "xulythem":	
 		// xử lý file upload
@@ -42,6 +46,7 @@ switch($action){
 		$mathanghh->setgiaban($_POST["txtgiaban"]);
 		$mathanghh->setsoluongton($_POST["txtsoluong"]);
 		$mathanghh->setdanhmuc_id($_POST["optdanhmuc"]);
+        $mathanghh->setncc_id($_POST["optnhacungcap"]);
         $mathanghh->sethinhanh($hinhanh);
 		$mh->themmathang($mathanghh);
 		$mathang = $mh->laymathang();

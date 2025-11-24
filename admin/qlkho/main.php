@@ -15,12 +15,15 @@
             <?php if(isset($tb)) echo "<div class='alert alert-info'>$tb</div>"; ?>
             <h5 class="card-title">Bảng Tồn Kho</h5>
             <table class="table table-bordered table-hover mt-3">
-                <thead class="table-light"><tr><th>Mã MH</th><th>Tên mặt hàng</th><th>Giá bán</th><th>Số lượng tồn</th></tr></thead>
+                <thead class="table-light"><tr><th>Mã MH</th><th>Tên mặt hàng</th><th>Nhà cung cấp</th><th>Giá bán</th><th>Số lượng tồn</th></tr></thead>
                 <tbody>
                     <?php foreach($mathang as $m): ?>
                     <tr>
                         <td>#<?php echo $m["id"]; ?></td>
                         <td><?php echo $m["tenmathang"]; ?></td>
+                        <td class="text-primary">
+                            <?php echo $m["tenncc"]; ?>
+                        </td>
                         <td><?php echo number_format($m["giaban"]); ?>đ</td>
                         <td>
                             <?php if($m["soluongton"] <= 10): ?>

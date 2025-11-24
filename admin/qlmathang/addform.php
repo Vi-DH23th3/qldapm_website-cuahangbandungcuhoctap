@@ -5,7 +5,7 @@
 <form method="post" enctype="multipart/form-data" action="index.php">
 <input type="hidden" name="action" value="xulythem">
 <div class="mb-3 mt-3">
-	<label for="optdanhmuc" class="form-label">Hãng sản xuất</label>
+	<label for="optdanhmuc" class="form-label">Danh mục hàng</label>
 	<select class="form-select" name="optdanhmuc">
 	<?php
 	foreach($danhmuc as $d):
@@ -15,6 +15,14 @@
 	endforeach;
 	?>
 	</select>
+</div>
+<div class="mb-3 mt-3">
+    <label for="optnhacungcap" class="form-label">Nhà cung cấp</label>
+    <select class="form-select" name="optnhacungcap">
+        <?php foreach($nhacungcap as $n): ?>
+            <option value="<?php echo $n["id"]; ?>"><?php echo $n["tenncc"]; ?></option>
+        <?php endforeach; ?>
+    </select>
 </div>
 <div class="mb-3 mt-3">
 	<label for="txttenmathang" class="form-label">Tên mặt hàng</label>

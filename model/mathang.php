@@ -11,7 +11,10 @@ class MATHANG{
     private $danhmuc_id;
     private $luotxem;
     private $luotmua;
+    private $ncc_id;
 
+    public function setncc_id($value){ $this->ncc_id = $value; } 
+    public function getncc_id(){ return $this->ncc_id; } 
     public function getid(){ return $this->id; }
     public function setid($value){ $this->id = $value; }
     public function gettenmathang(){ return $this->tenmathang; }
@@ -34,11 +37,14 @@ class MATHANG{
     public function setluotmua($value){ $this->luotmua = $value; }
 
 
-    // Lấy danh sách
+    // Lấy danh sách mặt hàng kèm tên Nhà cung cấp
     public function laymathang(){
         $dbcon = DATABASE::connect();
         try{
-            $sql = "SELECT * FROM mathang ORDER BY id";
+            $sql = "SELECT m.*, n.tenncc 
+                    FROM mathang m
+                    LEFT JOIN nhacungcap n ON m.ncc_id = n.id
+                    ORDER BY m.id DESC";
             $cmd = $dbcon->prepare($sql);
             $cmd->execute();
             $result = $cmd->fetchAll();
@@ -120,27 +126,29 @@ class MATHANG{
 
     // Thêm mới
     public function themmathang($mathang){
-        $dbcon = DATABASE::connect();
-        try{
-            $sql = "INSERT INTO mathang(tenmathang,mota,giagoc,giaban,soluongton,danhmuc_id,hinhanh,luotxem,luotmua) 
-                VALUES(:tenmathang,:mota,:giagoc,:giaban,:soluongton,:danhmuc_id,:hinhanh,0,0)";
-            $cmd = $dbcon->prepare($sql);
-            $cmd->bindValue(":tenmathang", $mathang->tenmathang);
-            $cmd->bindValue(":mota", $mathang->mota);
-            $cmd->bindValue(":giagoc", $mathang->giagoc);
-            $cmd->bindValue(":giaban", $mathang->giaban);
-            $cmd->bindValue(":soluongton", $mathang->soluongton);
-            $cmd->bindValue(":danhmuc_id", $mathang->danhmuc_id);
-            $cmd->bindValue(":hinhanh", $mathang->hinhanh);
-            $result = $cmd->execute();            
-            return $result;
-        }
-        catch(PDOException $e){
-            $error_message = $e->getMessage();
-            echo "<p>Lỗi truy vấn: $error_message</p>";
-            exit();
-        }
+    $dbcon = DATABASE::connect();
+    try{
+        // Thêm cột ncc_id vào câu lệnh SQL
+        $sql = "INSERT INTO mathang(tenmathang, mota, giagoc, giaban, soluongton, danhmuc_id, ncc_id, hinhanh, luotxem, luotmua) 
+                VALUES(:tenmathang, :mota, :giagoc, :giaban, :soluongton, :danhmuc_id, :ncc_id, :hinhanh, 0, 0)";
+        $cmd = $dbcon->prepare($sql);
+        $cmd->bindValue(":tenmathang", $mathang->tenmathang);
+        $cmd->bindValue(":mota", $mathang->mota);
+        $cmd->bindValue(":giagoc", $mathang->giagoc);
+        $cmd->bindValue(":giaban", $mathang->giaban);
+        $cmd->bindValue(":soluongton", $mathang->soluongton);
+        $cmd->bindValue(":danhmuc_id", $mathang->danhmuc_id);
+        $cmd->bindValue(":ncc_id", $mathang->ncc_id); // Bind giá trị NCC
+        $cmd->bindValue(":hinhanh", $mathang->hinhanh);
+        $result = $cmd->execute();
+        return $result;
     }
+    catch(PDOException $e){
+        $error_message = $e->getMessage();
+        echo "<p>Lỗi truy vấn: $error_message</p>";
+        exit();
+    }
+}
 
     // Xóa 
     public function xoamathang($mathang){
